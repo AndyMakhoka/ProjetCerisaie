@@ -17,15 +17,17 @@ use App\DAO\ServiceClient;
 use App\DAO\ServiceEmplacement;
 use App\Exceptions\MonException;
 use Illuminate\Support\Facades\Session;
+use function Sodium\compare;
 
 class SejourController extends Controller {
-
+    private $erreur = "";
     // On recherche tous les séjours
     public function listeSejours() {
         try {
+            $erreur = "";
             $unSejour = new ServiceSejour();
             $mesSejours = $unSejour->getListeSejours();
-            return view('vues/listerSejours', compact('mesSejours'));
+            return view('vues/listerSejours', compact('mesSejours', 'erreur'));
         } catch (MonException $e) {
             $erreur = $e->getMessage();
             return view('error', compact('erreur'));
@@ -38,12 +40,13 @@ class SejourController extends Controller {
     public function ajoutSejour() {
         if (Session::get('role') == "admin") {
             try {
+                $erreur = "";
                 $unClient = new ServiceClient();
                 $mesClients = $unClient->getListeClients();
                 $unEmp = new ServiceEmplacement();
                 $mesEmplacements = $unEmp->getListeEmplacements();
                 return view('vues/ajouterSejour',
-                      compact('mesClients', 'mesEmplacements'));
+                      compact('mesClients', 'mesEmplacements', 'erreur'));
             } catch (MonException $e) {
                 $erreur = $e->getMessage();
                 return view('error', compact('erreur'));
@@ -59,6 +62,7 @@ class SejourController extends Controller {
 
     public function postAjoutSejour() {
         try {
+            $erreur = "";
             $NumCli = Request::input('cbClient');
             $NumEmpl = Request::input('cbEmplacement');
             $DatedebSej = Request::input('DatedebSej');
@@ -66,10 +70,11 @@ class SejourController extends Controller {
             $NbPersonnes = Request::input('NbPersonnes');
             $unSejour = new ServiceSejour();
             $unSejour->ajoutSejour($NumCli, $NumEmpl, $DatedebSej, $DateFinSej, $NbPersonnes);
-            return view('home');
+            return redirect('getListeSejour')->with('erreur');
         } catch (MonException $e) {
             $erreur = $e->getMessage();
-            return view('error', compact('erreur'));
+            //return view('error', compact('erreur'));
+            return redirect('getListeSejour', compact('erreur'));
         } catch (Exception $ex) {
             $erreur = $ex->getMessage();
             return view('error', compact('erreur'));
@@ -79,6 +84,7 @@ class SejourController extends Controller {
     public function modification($id) {
 
         try {
+            $erreur = "";
             $unSejour = new ServiceSejour();
             $unS = $unSejour->getById($id);
 
@@ -87,7 +93,7 @@ class SejourController extends Controller {
             $unEmp = new ServiceEmplacement();
             $mesEmplacements = $unEmp->getListeEmplacements();
 
-            return view('vues/modifierSejour', compact('unS', 'mesClients', 'unEmp', 'mesEmplacements'));
+            return view('vues/modifierSejour', compact('unS', 'mesClients', 'unEmp', 'mesEmplacements', 'erreur'));
         } catch (MonException $e) {
             $erreur = $e->getMessage();
             return view('error', compact('erreur'));
@@ -109,7 +115,7 @@ class SejourController extends Controller {
             $unSejour = new ServiceSejour();
 
             $unSejour->modifSejour($NumCli, $NumEmpl, $DatedebSej, $DateFinSej, $NbPersonnes);
-            return view('home');
+            return redirect('getListeSejour')->with('erreur');
         } catch (MonException $e) {
             $erreur = $e->getMessage();
             return view('error', compact('erreur'));
@@ -124,14 +130,15 @@ class SejourController extends Controller {
      public function suppression($id) {
 
         try {
+            $erreur = "";
             $unSejour = new ServiceSejour();
              $unSejour->supprimeSejour($id);
-               return view('home');
+               return redirect('getListeSejour')->with('erreur');
         } catch (MonException $e) {
             $erreur = $e->getMessage();
-            return view('error', compact('erreur'));
+            return redirect('getListeSejour', compact('erreur'));
         } catch (Exception $ex) {
-            $erreur = $x->getMessage();
+            $erreur = $ex->getMessage();
             return view('error', compact('erreur'));
         }
     }

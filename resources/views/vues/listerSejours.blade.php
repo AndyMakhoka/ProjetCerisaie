@@ -26,7 +26,7 @@
             <td style="text-align:center;"><a href="{{ url('/modifierSejour')}}/{{$unSejour->NumSej}}">
                     <span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="modfier"</span></a>
             </td>
-            <td style="text-align:center;">                   
+            <td style="text-align:center;">
                      <a class="glyphicon glyphicon-remove-sign" data-toggle="tooltip" data-placement="top" title="Supprimer" href="#"
                        onclick="javascript:if (confirm('Suppression confirmée ?')) window.location ='{{ url('/supprimerSejour')}}/{{$unSejour->NumSej}}';">
                     </a>
@@ -37,14 +37,15 @@
         @endforeach
     </table>
     <div class="espace">
-        <div class="col-md-12"></div>    
+        <div class="col-md-12"></div>
     </div>
     <div class="form-group">
         <div class="col-md-12 col-md-offset-11">
-            <a class="btn btn-default btn-primary"   href="{{ url('/') }}"> 
+            <a class="btn btn-default btn-primary"   href="{{ url('/') }}">
                 <span class="glyphicon glyphicon-arrow-left"></span> Retour</a>
         </div>
     </div>
+    @include('error')
 </div>
 
 @stop
