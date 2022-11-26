@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\UtilisateurController;
+use Illuminate\Support\Facades\Route;
+
 /*
   |--------------------------------------------------------------------------
   | Web Routes
@@ -25,6 +27,7 @@ Route::get('/home', function () {
 /* * *********************************************************************** */
 
 
+
 Route::get('/getLogin', function () {
     return view('authentification/formLogin');
 });
@@ -36,8 +39,7 @@ Route::post('/login', 'App\Http\Controllers\UtilisateurController@signIn');
 /* * ******  Sejour ********************************************** */
 /* * *********************************************************************** */
 
-
-Route::get('/getListeSejour', 'App\Http\Controllers\SejourController@listeSejours');
+Route::get('/getListeSejour', 'App\Http\Controllers\SejourController@listeSejours')->middleware('Connect');
 
 /*
  * Ajout Séjour
@@ -61,5 +63,8 @@ Route::post('/postmodifierSejour/{id}', [
 ]);
 // suppression
 Route::get('/supprimerSejour/{id}', 'App\Http\Controllers\SejourController@suppression');
+
+
+
 
 Route::get('/miseajour/{pwd}',  [UtilisateurController::class, 'updatePassword']);

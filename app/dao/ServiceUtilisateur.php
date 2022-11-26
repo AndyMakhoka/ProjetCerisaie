@@ -14,6 +14,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\metier\Utilisateur;
 use  App\Exceptions\MonException;
+use App\dao\ServiceControle;
 
 class ServiceUtilisateur
 {
@@ -30,17 +31,27 @@ class ServiceUtilisateur
     public function login($login, $pwd) {
         $connected = false;
         try {
-            $Utilisateur = DB::table('utilisateur')
-                ->select()
-                ->where('NomUtil', '=', $login)
-                ->first();
-            if ($Utilisateur) {
-                if (Hash::check($pwd, $Utilisateur->MotPasse)) {
-                    Session::put('id', $Utilisateur->NumUtil);
-                    Session::put('role', $Utilisateur->role);
-                    $connected = true;
+            $unServiceControle = new ServiceControle();
+            if($unServiceControle->_UserOK($login)){
+
+                $Utilisateur = DB::table('utilisateur')
+                    ->select()
+                    ->where('NomUtil', '=', $login)
+                    ->first();
+                if ($Utilisateur) {
+                    if (Hash::check($pwd, $Utilisateur->MotPasse)) {
+                        Session::put('id', $Utilisateur->NumUtil);
+                        Session::put('role', $Utilisateur->role);
+                        $connected = true;
+                    }
                 }
+
             }
+            else
+            {
+                //redirect("home");
+            }
+            echo $unServiceControle->_UserOK($login);
         }
         catch (QueryException $e)
         {

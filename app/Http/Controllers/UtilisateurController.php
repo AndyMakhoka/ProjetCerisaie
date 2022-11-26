@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use App\DAO\ServiceUtilisateur;
 use App\Exceptions\MonException;
-
+use Illuminate\Support\Facades\Session;
 
 class UtilisateurController extends Controller {
 
     /**
      * Authentifie le visiteur
-     * @return type Vue formLogin ou home
+     * @returntype Vue formLogin ou home
      */
     public function signIn() {
         try {
@@ -22,6 +22,7 @@ class UtilisateurController extends Controller {
             $unUtilisateur = new ServiceUtilisateur();
             $connected = $unUtilisateur->login($login, $pwd);
             if ($connected) {
+                //Session::put('id', );
                 return view('home');
             } else {
                 $erreur = "Login ou mot de passe inconnu !";
