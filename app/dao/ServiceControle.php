@@ -36,10 +36,11 @@ class ServiceControle
         else
         {
 
-            echo "
+            /*echo "
 
-            Mot de passe pas conforme";
-            return false;
+            Mot de passe pas conforme";*/
+
+            return true;
         }
     }
 

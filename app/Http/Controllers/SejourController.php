@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\metier\Sejour;
 use Exception;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
@@ -134,6 +135,60 @@ class SejourController extends Controller {
             $unSejour = new ServiceSejour();
              $unSejour->supprimeSejour($id);
                return redirect('getListeSejour')->with('erreur');
+        } catch (MonException $e) {
+            $erreur = $e->getMessage();
+            return redirect('getListeSejour', compact('erreur'));
+        } catch (Exception $ex) {
+            $erreur = $ex->getMessage();
+            return view('error', compact('erreur'));
+        }
+    }
+
+
+
+    public function getListeMois() {
+
+        try {
+            $erreur = "";
+
+            $i = 0;
+            $lesMois = array(
+                1 => 'Janvier',
+                2 => 'Février',
+                3 => 'Mars',
+                4 => 'Avril',
+                5 => 'Mai',
+                6 => 'Juin',
+                7 => 'Juillet',
+                8 => 'Août',
+                9 => 'Septembre',
+                10 => 'Octobre',
+                11 => 'Novembre',
+                12 => 'Décembre'
+            );
+
+
+            return view('vues/formSaisieMois', compact('lesMois', 'i', 'erreur'));
+        } catch (MonException $e) {
+            $erreur = $e->getMessage();
+            return view('home', compact('erreur'));
+        } catch (Exception $ex) {
+            $erreur = $ex->getMessage();
+            return view('home', compact('erreur'));
+        }
+    }
+
+    public function postRechercheMoisSejour() {
+
+        try {
+            $erreur = "";
+
+            // Récuperation des données
+            $annee = Request::input('Annee');
+            $mois = Request::input('cbMois');
+            $unSejour = new Sejour();
+            $mesSejours = $unSejour->rechercheSejour($annee, $mois);
+            return view('vues/listerSejours', compact('mesSejours'));
         } catch (MonException $e) {
             $erreur = $e->getMessage();
             return redirect('getListeSejour', compact('erreur'));

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UtilisateurController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SejourController;
 
 /*
   |--------------------------------------------------------------------------
@@ -15,11 +16,11 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home')->with('erreur', "");
 });
 
 Route::get('/home', function () {
-    return view('home');
+    return view('home')->with('erreur', "");
 });
 
 /* * *********************************************************************** */
@@ -61,6 +62,7 @@ Route::post('/postmodifierSejour/{id}', [
     'as' => 'postmodifierSejour',
     'uses' => 'App\Http\Controllers\SejourController@postmodifierSejour'
 ]);
+
 // suppression
 Route::get('/supprimerSejour/{id}', 'App\Http\Controllers\SejourController@suppression');
 
@@ -69,11 +71,13 @@ Route::get('/supprimerSejour/{id}', 'App\Http\Controllers\SejourController@suppr
 
 //Réalisation de l’ajout d’un nouveau traitement
 
-Route::get('/getSejourParMois', function (){
-    return view('vues/formjourMois');
-});
+Route::get('/getSejourParMois', 'App\Http\Controllers\SejourController@getListeMois');
 
 
+Route::post('/rechercheSejoursMois/{i}', [
+    'as' => 'postRechercheMoisSejour',
+    'uses' => 'App\Http\Controllers\SejourController@postRechercheMoisSejour'
+]);
 
 
 

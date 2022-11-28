@@ -29,7 +29,7 @@
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li> <a class="dropdown-item"  href="{{ url('/getListeSejour') }}">Lister Séjours</a></li>
-                                <li> <a class="dropdown-item"  href="{{ url('/getSejourParMois') }}">Lister Séjours</a></li>
+                                <li> <a class="dropdown-item"  href="{{ url('/getSejourParMois') }}">Lister Séjours par mois</a></li>
                                 <li> <a class="dropdown-item" href="{{ url('/ajoutSejour') }}">Ajouter</a> </li>
                             </ul>
                         </li>

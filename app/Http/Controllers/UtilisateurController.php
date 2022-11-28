@@ -17,13 +17,14 @@ class UtilisateurController extends Controller {
      */
     public function signIn() {
         try {
+            $erreur = "";
             $login = Request::input('login');
             $pwd = Request::input('pwd');
             $unUtilisateur = new ServiceUtilisateur();
             $connected = $unUtilisateur->login($login, $pwd);
             if ($connected) {
                 //Session::put('id', );
-                return view('home');
+                return view('home', compact('erreur'));
             } else {
                 $erreur = "Login ou mot de passe inconnu !";
                 return view('Error', compact('erreur'));
@@ -40,10 +41,10 @@ class UtilisateurController extends Controller {
      */
     public function signOut() {
         try {
-
+            $erreur = "";
             $unUtilisateur = new ServiceUtilisateur();
             $unUtilisateur->logout();
-            return view('home');
+            return view('home', compact('erreur'));
         } catch (Exception $e) {
             $erreur = $e->getMessage();
             return view('Error', compact('erreur'));

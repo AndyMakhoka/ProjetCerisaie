@@ -83,4 +83,19 @@ class ServiceSejour
         }
     }
 
+    public function rechercheSejour($annee, $mois)
+    {
+        try {
+            DB::table('sejour')
+                ->select('NumSej', 'NomCli', 'NumEmp', 'DateFiniSej', 'NbPersonnes')
+                ->join('client', 'sejour.NumCli', '=', 'Client.NumCli')
+                ->whereMonth('DatedebSej', '=', $mois)
+                ->whereYear('DatedebSej', '=', $annee)
+                ->get();
+
+        } catch (QueryException $e) {
+            throw new MonException($e->getMessage(), 5);
+        }
+    }
+
 }
