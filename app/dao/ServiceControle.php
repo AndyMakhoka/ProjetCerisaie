@@ -6,12 +6,12 @@ namespace App\dao;
 
 class ServiceControle
 {
-    private $modelle = '/[0-9a-zA-Z.+_]/';
-    private $CaracSpeci = "%";
+    private $modeleUser = "/^[A-Z][A-Za-z]{3,19}$/";
+    private $modelePwd = "[^!@#$%&()]";
 
     public function _UserOK($user){
         //if(preg_match($this.$this->chiffres . $this.$this->CaracSpeci, $user))
-        if(preg_match('/^[a-z\d_]{2,20}$/i', $user))
+        if(preg_match($this->modeleUser, $user))
         {
             return true;
         }
@@ -20,8 +20,24 @@ class ServiceControle
         {
             echo "
 
-            user not ok";
+            Nom utilisateur pas conforme";
+            return false;
+        }
+    }
+
+    public function PwdOK($pwd){
+        //if(preg_match($this.$this->chiffres . $this.$this->CaracSpeci, $user))
+        if(preg_match($this->modeleUser, $pwd))
+        {
             return true;
+        }
+
+        else
+        {
+            echo "
+
+            Mot de passe pas conforme";
+            return false;
         }
     }
 

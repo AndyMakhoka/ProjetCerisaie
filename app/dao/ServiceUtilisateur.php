@@ -32,26 +32,34 @@ class ServiceUtilisateur
         $connected = false;
         try {
             $unServiceControle = new ServiceControle();
+
             if($unServiceControle->_UserOK($login)){
 
-                $Utilisateur = DB::table('utilisateur')
-                    ->select()
-                    ->where('NomUtil', '=', $login)
-                    ->first();
-                if ($Utilisateur) {
-                    if (Hash::check($pwd, $Utilisateur->MotPasse)) {
-                        Session::put('id', $Utilisateur->NumUtil);
-                        Session::put('role', $Utilisateur->role);
-                        $connected = true;
+                if($unServiceControle->PwdOK($pwd)){
+
+                    $Utilisateur = DB::table('utilisateur')
+                        ->select()
+                        ->where('NomUtil', '=', $login)
+                        ->first();
+                    if ($Utilisateur) {
+                        if (Hash::check($pwd, $Utilisateur->MotPasse)) {
+                            Session::put('id', $Utilisateur->NumUtil);
+                            Session::put('role', $Utilisateur->role);
+                            $connected = true;
+                        }
                     }
                 }
+
+
 
             }
             else
             {
-                //redirect("home");
+                $this->redirect("getLogin")->with;
             }
+
             echo $unServiceControle->_UserOK($login);
+            echo $unServiceControle->PwdOK($pwd);
         }
         catch (QueryException $e)
         {
@@ -76,5 +84,7 @@ class ServiceUtilisateur
             throw new MonException($e->getMessage());
         }
     }
+
+
 
 }

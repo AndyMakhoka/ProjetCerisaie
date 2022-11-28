@@ -16,31 +16,32 @@
                     </div>
                     @if (Session::get('id') == 0)
                     <div class="collapse navbar-collapse" id="navbar-collapse-target">
-                        <ul class="nav navbar-nav navbar-right">                             
+                        <ul class="nav navbar-nav navbar-right">
                             <li><a href="{{ url('/getLogin') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Se connecter</a></li>
-                        </ul> 
+                        </ul>
                     </div>
                     @endif
                     @if (Session::get('id') > 0)
                     <div class="nav navbar-nav">
                         <li>
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" 
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
                                aria-haspopup="true" aria-expanded="false">Séjour
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li> <a class="dropdown-item"  href="{{ url('/getListeSejour') }}">Lister Séjours</a></li>
-                                <li> <a class="dropdown-item" href="{{ url('/ajoutSejour') }}">Ajouter</a> </li>    
+                                <li> <a class="dropdown-item"  href="{{ url('/getSejourParMois') }}">Lister Séjours</a></li>
+                                <li> <a class="dropdown-item" href="{{ url('/ajoutSejour') }}">Ajouter</a> </li>
                             </ul>
                         </li>
                     </div>
-                    <ul class="nav navbar-nav navbar-right">                             
+                    <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ url('/getLogout') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Se déconnecter</a></li>
-                    </ul> 
+                    </ul>
                     @endif
                 </div><!--/.container-fluid -->
             </nav>
             @yield('content')
-        </div>    
+        </div>
         {!! Html::script('assets/js/bootstrap.js') !!}
         {!! Html::script('assets/js/bootstrap.min.js') !!}
         {!! Html::script('assets/js/ui-bootstrap-tpls.js')  !!}

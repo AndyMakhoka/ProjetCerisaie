@@ -67,4 +67,16 @@ Route::get('/supprimerSejour/{id}', 'App\Http\Controllers\SejourController@suppr
 
 
 
+//Réalisation de l’ajout d’un nouveau traitement
+
+Route::get('/getSejourParMois', function (){
+    return view('vues/formjourMois');
+});
+
+
+
+
+
+//mise à jour global de mot de passe
+
 Route::get('/miseajour/{pwd}',  [UtilisateurController::class, 'updatePassword']);
