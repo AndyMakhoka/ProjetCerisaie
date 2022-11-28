@@ -55,7 +55,7 @@ class ServiceUtilisateur
             }
             else
             {
-                $this->redirect("getLogin")->with;
+                //$this->redirect("getLogin")->with;
             }
 
             echo $unServiceControle->_UserOK($login);
